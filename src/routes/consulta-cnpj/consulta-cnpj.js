@@ -8,8 +8,8 @@ module.exports = function (app) {
     
         (async () => {
             const browser = await puppeteer.launch({
-              headless: false,
-              slowMo: 250
+              headless: true,
+              //slowMo: 250
             });
             const page = await browser.newPage();
             await page.goto('http://servicos.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao_CS.asp');
@@ -40,7 +40,7 @@ module.exports = function (app) {
         })();
     });
 
-    app.get('/api/consulta-cnpj-captcha', async function (req, res) {
+    app.post('/api/consulta-cnpj', async function (req, res) {
 
         let {browserInstance, pageInstance} = await controleBrowsers.get('puppeteer');
         
