@@ -8,8 +8,9 @@ module.exports = function (app) {
     
         (async () => {
             const browser = await puppeteer.launch({
-              headless: true,
-              //slowMo: 250
+                args: ['--no-sandbox', '--disable-setuid-sandbox'],
+                headless: true,
+                //slowMo: 250
             });
             const page = await browser.newPage();
             await page.goto('http://servicos.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao_CS.asp');
