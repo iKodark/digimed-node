@@ -3,7 +3,7 @@ const {
     prepareSignup,
     login,
     prepareLogin
-} = require('../../controllers/auth/auth');
+} = require('../controllers/auth');
 
 module.exports = function (app) {
     app.post('/api/signup', async function (req, res) {

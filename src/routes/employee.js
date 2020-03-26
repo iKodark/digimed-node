@@ -1,21 +1,21 @@
 const {
-    prepareGetClients,
-    getClients,
-    prepareSetClient,
-    setClient
-} = require('../../controllers/clients/clients');
+    prepareReadEmployees,
+    readEmployees,
+    prepareCreateEmployee,
+    createEmployee
+} = require('../controllers/employee');
 
 module.exports = function (app) {
-    app.get('/api/get/clients/:user', async function (req, res) {
+    app.get('/api/employees/:company', async function (req, res) {
 
-        getClients(prepareGetClients(req))
+        readEmployees(prepareReadEmployees(req))
            .then((success) => {res.status(success.status).json(success.json)})
            .catch((error) => {res.status(error.status).json(error.json)})
     });
 
-    app.post('/api/set/client', async function (req, res) {
-        console.log(req.body);
-        setClient(prepareSetClient(req))
+    app.post('/api/employee', async function (req, res) {
+
+        createEmployee(prepareCreateEmployee(req))
            .then((success) => {res.status(success.status).json(success.json)})
            .catch((error) => {res.status(error.status).json(error.json)})
     });

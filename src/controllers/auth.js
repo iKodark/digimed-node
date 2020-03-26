@@ -1,4 +1,4 @@
-const { User } = require('../../models');
+const { Employee } = require('../models');
 const bcrypt = require ('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -49,12 +49,12 @@ const signUp = async (data) => {
 
 const prepareLogin = ({
     body: {
-        login,
+        email,
         password
     }
 }) => {
     return {
-        login,
+        email,
         password
     }
 }
@@ -63,10 +63,10 @@ const login = async (data) => {
     let response;
     try {
 
-        let user = await User.findOne({
+        let user = await Employee.findOne({
             raw: true,
             where: {
-                login: data.login
+                email: data.email
             }
         });
         
@@ -85,10 +85,9 @@ const login = async (data) => {
         if(auth && token) {
             user = {
                 id: user.id,
-                login: user.login,
-                name: user.name
+                login: user.email,
+                name: user.firstName
             };
-            console.log(user);
             response = {
                 json: {
                     message: 'Successfully authenticated user!',
