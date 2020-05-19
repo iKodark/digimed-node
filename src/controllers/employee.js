@@ -1,4 +1,6 @@
-const { Employee, City, State } = require('../models');
+const { Employee, City, State, Role } = require('../models');
+const bcrypt = require ('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Catch all employees of a company
 const prepareReadEmployees = ({
@@ -18,7 +20,7 @@ const readEmployees = async (data) => {
         let employees = await (
             Employee.findAll({
                 where: {
-                  company_id: data.company
+                  companies_id: data.company
                 },
                 include:[{
                     model: City,
@@ -27,10 +29,14 @@ const readEmployees = async (data) => {
                         model: State,
                         as: 'state'
                     }]
-                }]
+                },{
+                    model: Role,
+                    as: 'role',
+                }
+                ]
             })
         );
-
+        
         response = {
             json: {
                 message: 'Employees successfully consulted!',
@@ -58,8 +64,10 @@ const prepareCreateEmployee = ({
         email,
         address,
         cpf,
+        password,
         company,
-        city
+        city,
+        role
     }
 }) => {
 
@@ -70,15 +78,18 @@ const prepareCreateEmployee = ({
         email,
         address,
         cpf,
-        companyId: company,
-        cityId: city,
+        password,
+        companies_id: company,
+        cities_id: city,
+        roles_id: role
     }
 }
 
 const createEmployee = async (data) => {
     let response;
     try {
-        console.log(data);
+        data.password = await(bcrypt.hash(data.password, 10));
+
         let employee = await (
             Employee.create({
                 firstName: data.firstName,
@@ -87,8 +98,10 @@ const createEmployee = async (data) => {
                 email: data.email,
                 address: data.address,
                 cpf: data.cpf,
-                company_id: data.companyId,
-                city_id: data.cityId
+                password: data.password,
+                companies_id: data.companies_id,
+                cities_id: data.cities_id,
+                roles_id: data.roles_id
             })
         );
         
@@ -110,9 +123,114 @@ const createEmployee = async (data) => {
     }
 }
 
+const prepareUpdateEmployee = ({
+    body: {
+        id,
+        firstName,
+        lastName,
+        phone,
+        email,
+        address,
+        cpf,
+        city,
+        role
+    }
+}) => {
+
+    return {
+        id,
+        firstName,
+        lastName,
+        phone,
+        email,
+        address,
+        cpf,
+        cities_id: city,
+        roles_id: role
+    }
+}
+
+const updateEmployee = async (data) => {
+    let response;
+    try {
+
+        let employee = await Employee.update(
+            data,
+            {
+                where: {
+                    id: data.id
+                },
+                returning: true,
+                plain: true
+            }
+        );
+        
+        response = {
+            json: {
+                message: 'Employee successfully updated!',
+                data
+            }, status: 200
+        }
+    }catch(error) {
+        console.log(error);
+        response = {
+            json: {
+                message: 'Error update employee!'
+            }, status: 500
+        }
+    }finally {
+        return response;
+    }
+}
+
+const prepareDeleteEmployee = ({
+    params: {
+        id
+    }
+}) => {
+
+    return {
+        id
+    }
+}
+
+const deleteEmployee = async (data) => {
+    let response;
+    try {
+
+        let employee = await Employee.destroy({
+
+                where: {
+                    id: data.id
+                }
+            }
+        );
+        
+        response = {
+            json: {
+                message: 'Employee successfully updated!',
+                employee
+            }, status: 200
+        }
+    }catch(error) {
+        console.log(error);
+        response = {
+            json: {
+                message: 'Error update employee!'
+            }, status: 500
+        }
+    }finally {
+        return response;
+    }
+}
+
 module.exports = {
     prepareReadEmployees,
     readEmployees,
     prepareCreateEmployee,
-    createEmployee
+    createEmployee,
+    prepareUpdateEmployee,
+    updateEmployee,
+    prepareDeleteEmployee,
+    deleteEmployee
 };

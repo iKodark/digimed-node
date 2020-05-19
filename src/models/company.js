@@ -32,8 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Company.associate = function(models) {
-        Company.belongsTo(models.City, {foreignKey: 'city_id', as: 'city'})
-        Company.hasMany(models.Employee, {as: 'employees'})
+        Company.belongsTo(models.City, {foreignKey: 'cities_id', as: 'city'})
     };
 
     return Company;

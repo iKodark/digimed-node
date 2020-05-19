@@ -15,22 +15,6 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      ibge: {
-        allowNull: true,
-        type: DataTypes.INTEGER,
-      },
-      ddd: {
-        allowNull: true,
-        type: DataTypes.STRING,
-      },
-      country_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Countries',
-          key: 'id'
-        }
-      },
       created_at: {
         allowNull: false,
         type: DataTypes.DATE,

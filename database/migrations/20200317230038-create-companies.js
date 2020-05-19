@@ -14,6 +14,7 @@ module.exports = {
       cnpj: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true
       },
       phone: {
         allowNull: false,
@@ -22,12 +23,13 @@ module.exports = {
       email: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true
       },
       address: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      city_id: {
+      cities_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {

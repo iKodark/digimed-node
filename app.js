@@ -9,8 +9,9 @@ app.use(cors());
 
 consign()
     .include('src/middlewares/middleware.js')
-    .then('src/routes/auth/auth.js')
+    .then('src/routes/auth.js')
     .include('src/middlewares/token.js')
     .then('src/routes')
     .then('src/libs/boot.js')
     .into(app)
+    

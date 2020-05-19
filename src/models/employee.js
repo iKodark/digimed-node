@@ -17,12 +17,21 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
         underscored: true,
         paranoid: true,
-        deletedAt: 'deleted_at'
+        deletedAt: 'deleted_at',
+        defaultScope: {
+            attributes: { exclude: ['password'] },
+        },
+        scopes: {
+            withPassword: {
+                attributes: { },
+            }
+        }
     });
 
     Employee.associate = function(models) {
-        Employee.belongsTo(models.Company, {foreignKey: 'company_id', as: 'company'})
-        Employee.belongsTo(models.City, {foreignKey: 'city_id', as: 'city'})
+        Employee.belongsTo(models.Company, {foreignKey: 'companies_id', as: 'company'})
+        Employee.belongsTo(models.City, {foreignKey: 'cities_id', as: 'city'})
+        Employee.belongsTo(models.Role, {foreignKey: 'roles_id', as: 'role'})
     };
 
     return Employee;

@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const City = sequelize.define('City', {
         name: DataTypes.STRING,
-        ibge: DataTypes.STRING,
         createdAt: {
             type: DataTypes.DATE,
             field: 'created_at'
@@ -22,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     City.associate = function(models) {
-        City.belongsTo(models.State, {foreignKey: 'state_id', as: 'state'})
+        City.belongsTo(models.State, {foreignKey: 'states_id', as: 'state'})
     };
 
     return City;

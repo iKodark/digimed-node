@@ -1,6 +1,8 @@
+'use strict';
+
 module.exports = {
   up: (queryInterface, DataTypes) => {
-    return queryInterface.createTable('Countries', {
+    return queryInterface.createTable('Roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,18 +12,6 @@ module.exports = {
       name: {
         allowNull: false,
         type: DataTypes.STRING,
-      },
-      pt_name: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      initial: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      bacen: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
       },
       created_at: {
         allowNull: false,
@@ -41,6 +31,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('Countries');
+    return queryInterface.dropTable('Roles');
   }
 };

@@ -17,7 +17,7 @@ const getCitiesByState = async (data) => {
         let cities = await (
             City.findAll({
                 where: {
-                    state_id: data.state
+                    states_id: data.state
                 }
             })
         );

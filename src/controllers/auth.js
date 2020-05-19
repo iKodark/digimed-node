@@ -63,7 +63,7 @@ const login = async (data) => {
     let response;
     try {
 
-        let user = await Employee.findOne({
+        let user = await Employee.scope('withPassword').findOne({
             raw: true,
             where: {
                 email: data.email
@@ -83,16 +83,21 @@ const login = async (data) => {
         }
 
         if(auth && token) {
-            user = {
-                id: user.id,
-                login: user.email,
-                name: user.firstName
+            
+            data = {
+                user: {
+                    id: user.id,
+                    login: user.email,
+                    name: user.firstName,
+                    company: user.companies_id,
+                    role: user.roles_id
+                },
+                token
             };
             response = {
                 json: {
                     message: 'Successfully authenticated user!',
-                    data: user,
-                    token
+                    data
                 }, status: 200
             }
         }else{
@@ -107,7 +112,7 @@ const login = async (data) => {
         console.log(error);
         response = {
             json: {
-                message: 'Error registering user!'
+                message: 'Error authenticated user!'
             }, status: 500
         }
     }finally {

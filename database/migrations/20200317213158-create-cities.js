@@ -11,11 +11,7 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      ibge: {
-        allowNull: true,
-        type: DataTypes.INTEGER,
-      },
-      state_id: {
+      states_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {

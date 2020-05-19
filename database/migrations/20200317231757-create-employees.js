@@ -22,6 +22,7 @@ module.exports = {
       email: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true
       },
       password: {
         allowNull: true,
@@ -34,8 +35,9 @@ module.exports = {
       cpf: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true
       },
-      company_id: {
+      companies_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -43,11 +45,19 @@ module.exports = {
           key: 'id'
         }
       },
-      city_id: {
+      cities_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'Cities',
+          key: 'id'
+        }
+      },
+      roles_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Roles',
           key: 'id'
         }
       },
